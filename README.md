@@ -13,6 +13,9 @@ This Django application provides a management system for vendors and purchase or
   - [Vendor Endpoints](#vendor-endpoints)
   - [Purchase Order Endpoints](#purchase-order-endpoints)
 - [Setup and Installation](#setup-and-installation)
+  - [MySQL Database Setup](#mysql-database-setup)
+  - [Environment Configuration](#environment-configuration)
+  - [Running the Application](#running-the-application)
 - [Usage](#usage)
 
 ## Getting Started
@@ -82,6 +85,21 @@ Represents the historical performance of a vendor with the following fields:
 
 ## Setup and Installation
 
+### MySQL Database Setup
+
+1. **Install MySQL:**
+   Download and install MySQL from the official website: [MySQL Downloads](https://dev.mysql.com/downloads/). Follow the installation instructions specific to your operating system.
+
+2. **Create a Database:**
+   After installing MySQL, you need to create a database for your Django application.
+   ```sh
+   mysql -u root -p
+   CREATE DATABASE DjangoDatabase;
+   ```
+
+
+### Environment Configuration
+
 1. **Clone the repository:**
    ```sh
    git clone https://github.com/your-username/vendor-purchase-order-management.git
@@ -99,16 +117,56 @@ Represents the historical performance of a vendor with the following fields:
    pip install -r requirements.txt
    ```
 
-4. **Apply migrations:**
+4. **Update `settings.py` with your database configuration:**
+   Open the `settings.py` file and configure the `DATABASES` setting as follows:
+   ```python
+   DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.mysql',
+           'NAME': 'DjangoDatabase',        # Name of your database
+           'USER': 'django_user',           # Your MySQL user
+           'PASSWORD': 'your_password',     # Your MySQL user's password
+           'HOST': 'localhost',             # Or the IP address of your MySQL server
+           'PORT': '3306',                  # Default MySQL port
+       }
+   }
+   ```
+
+5. **Install MySQL client for Python:**
+   To connect Django to MySQL, you need to install the MySQL client library.
+   ```sh
+   pip install mysqlclient
+   ```
+
+### Running the Application
+
+1. **Apply migrations:**
+   Django uses migrations to propagate changes you make to your models (adding a field, deleting a model, etc.) into your database schema. Run the following command to apply migrations:
    ```sh
    python manage.py migrate
    ```
 
-5. **Run the development server:**
+2. **Create a superuser (Admin user):**
+   Create a superuser to access the Django admin interface.
+   ```sh
+   python manage.py createsuperuser
+   ```
+
+3. **Run the development server:**
+   Start the Django development server to serve your application.
    ```sh
    python manage.py runserver
    ```
 
-6. **Access the application:**
-   Open your web browser and navigate to `http://localhost:8000`.
+4. **Access the application:**
+   Open your web browser and navigate to `http://localhost:8000`. You should see your Django application running.
 
+5. **Access the admin interface:**
+   Navigate to `http://localhost:8000/admin` and log in with the superuser credentials you created earlier to manage your models through the admin interface.
+
+## Usage
+
+Follow the above steps to set up and run your Django application. Ensure your MySQL server is running and properly configured to allow connections from your Django application. The detailed instructions should help you troubleshoot any issues related to the database connection and running the app.
+```
+
+This expanded version provides comprehensive guidance on setting up and configuring the MySQL database, updating the Django settings, applying migrations, creating a superuser, and running the application.
